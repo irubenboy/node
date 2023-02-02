@@ -1,4 +1,8 @@
-const http = require('http') // Paquete nativo para realizar request y crear un servidor
+const express = require('express') // Framework que facilita la creación del servidor
+
+const app = express()
+
+const PORT = 3000
 
 // data
 let notes = [
@@ -21,14 +25,33 @@ let notes = [
         "important": true
     }
 ]
-// Crear servidor configurando la cabecera
-const app = http.createServer((request, response) => {
-    response.writeHead(200, { 'Content-Type': 'application/json' })
-    response.end(JSON.stringify(notes))
+
+app.get("/", (request, response) => {
+    response.send("<h1>Hello World</h1>")
 })
 
-const PORT = 3000
+app.get("/api/notes", (request, response) => {
+    response.json(notes)
+})
 
-app.listen(PORT) // Servidor escucha en el puerto PORT
+app.get("/api/notes/:id", (request, response) => {
+    const id = Number(request.params.id)
 
-console.log(`Server running on port ${PORT}`)
+    const note = notes.find(note => note.id === id)
+    if (note) {
+        response.json(note)
+    } else {
+        response.status(404).end()
+    }
+
+})
+
+app.delete("/api/notes/:id", (request, response) => {
+    const id = Number(request.params.id)
+
+    const note = notes.filter(note => note.id != id)
+
+    response.status(204).json()
+
+})
+app.listen(PORT, () => console.log(`Server listening port ${PORT}`))

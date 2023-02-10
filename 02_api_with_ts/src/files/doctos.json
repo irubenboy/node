@@ -1,6 +1,6 @@
 [
     {
-        "id": 2,
+        "id": 1,
         "dni": "77206077E",
         "name": "María Pérez",
         "specialty": "Pediatría",
@@ -9,7 +9,7 @@
         "job": "Pediatra"
     },
     {
-        "id": 3,
+        "id": 2,
         "dni": "77206077E",
         "name": "Irene",
         "specialty": "Pediatría",
@@ -18,16 +18,16 @@
         "job": "Pediatra"
     },
     {
-        "id": 4,
+        "id": 3,
         "dni": "77206077E",
         "name": "Marta",
-        "specialty": "Cardiologa",
+        "specialty": "Cardióloga",
         "year": 2023,
         "collegiateNumber": 738394,
         "job": "Urgencias"
     },
     {
-        "id": 5,
+        "id": 4,
         "dni": "77206077E",
         "name": "Irene",
         "specialty": "Pediatría",

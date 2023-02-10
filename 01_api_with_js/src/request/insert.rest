@@ -1,0 +1,67 @@
+POST http://localhost:3000/api/doctors
+Content-Type: application/json
+
+{
+    "id": 10,
+    "dni": "77206077E",
+    "name": "Irene",
+    "specialty": "Pediatría",
+    "year": 2013,
+    "collegiateNumber": 738394,
+    "job": "Pediatra"
+}
+
+
+###
+POST http://localhost:3000/api/doctors
+Content-Type: application/json
+
+{
+    "id": 10,
+    "name": "Marta Cuenca",
+    "specialty": "Pediatría",
+    "year": 2013,
+    "collegiateNumber": 738394,
+    "job": "Pediatra"
+}
+
+
+###
+POST http://localhost:3000/api/doctors
+Content-Type: application/json
+
+{
+    "id": 10,
+    "dni": "77206077E",
+    "specialty": "Pediatría",
+    "year": 2013,
+    "collegiateNumber": 738394,
+    "job": "Pediatra"
+}
+
+###
+POST http://localhost:3000/api/doctors
+Content-Type: application/json
+
+{
+    "id": 10,
+    "dni": "77206077E",
+    "name": "Irene",
+    "specialty": "Pediatría",
+    "year": 2013,
+    "job": "Pediatra"
+}
+
+###
+POST http://localhost:3000/api/doctors
+Content-Type: application/json
+
+{
+    "id": 10,
+    "dni": "77206077E",
+    "name": "Marta",
+    "specialty": "Cardiologa",
+    "year": 2027,
+    "collegiateNumber": 738394,
+    "job": "Urgencias"
+}

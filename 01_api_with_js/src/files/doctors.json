@@ -1,0 +1,38 @@
+[
+    {
+        "id": 2,
+        "dni": "77206077E",
+        "name": "María Pérez",
+        "specialty": "Pediatría",
+        "year": 2013,
+        "collegiateNumber": 738394,
+        "job": "Pediatra"
+    },
+    {
+        "id": 3,
+        "dni": "77206077E",
+        "name": "Irene",
+        "specialty": "Pediatría",
+        "year": 2013,
+        "collegiateNumber": 738394,
+        "job": "Pediatra"
+    },
+    {
+        "id": 4,
+        "dni": "77206077E",
+        "name": "Marta",
+        "specialty": "Cardiologa",
+        "year": 2023,
+        "collegiateNumber": 738394,
+        "job": "Urgencias"
+    },
+    {
+        "id": 5,
+        "dni": "77206077E",
+        "name": "Irene",
+        "specialty": "Pediatría",
+        "year": 2013,
+        "collegiateNumber": 738394,
+        "job": "Pediatra"
+    }
+]

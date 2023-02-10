@@ -10,3 +10,5 @@ const fail = (response: express.Response, error: createHttpError.HttpError | nul
 
     response.status(statusCode).json({ message })
 }
+
+export const res = { success, fail }

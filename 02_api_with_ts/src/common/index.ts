@@ -5,7 +5,7 @@ import express from "express"
 const success = (response: express.Response, status = 200, message = "ok", body = {}) => response.status(status).json({ message, body })
 
 
-const fail = (response: express.Response, error: createHttpError.HttpError | null) => {
+const fail = (response: express.Response, error: createHttpError.HttpError | null = null) => {
     const { statusCode, message } = error ? error : new createHttpError.InternalServerError()
 
     response.status(statusCode).json({ message })

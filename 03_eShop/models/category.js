@@ -11,9 +11,6 @@ const categorySchema = mongoose.Schema({
     color: {
         type: String
     },
-    image: {
-        type: String,
-    }
 })
 
 exports.Category = mongoose.model('Category', categorySchema);

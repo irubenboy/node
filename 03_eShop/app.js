@@ -26,8 +26,9 @@ app.use(`${api}/users`, usersRoutes)
 app.use(`${api}/orders`, ordersRoutes)
 
 //Database
+mongoose.set("strictQuery", false)
 mongoose
-    .connect(process.env.CONNECTION_STRING, {
+    .connect(process.env.MONGO_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         dbName: "eshop-database",

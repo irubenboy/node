@@ -5,12 +5,18 @@ const { Category } = require('../models/category')
 
 
 router.get(`/`, async (req, res) => {
-    const productList = await Product.find().populate("category")
+
+    let filter = {}
+
+    if (req.query.categories) {
+        filter = { category: req.query.categories.split(",") }
+    }
+    const productList = await Product.find(filter).populate("category")
 
     if (!productList) {
-        res.status(500).json({ success: false })
+        return res.status(500).json({ success: false })
     }
-    res.send(productList)
+    return res.send(productList)
 })
 
 router.get(`/:id`, async (req, res) => {
@@ -96,6 +102,31 @@ router.delete('/:id', async (req, res) => {
     }).catch((error) => {
         return res.status(400).json({ success: false, error: error })
     })
+})
+
+router.get('/get/count', async (req, res) => {
+    const count = await Product.countDocuments()
+
+    if (!count) {
+        return res.status(500).json({ success: false })
+    }
+
+    return res.send({
+        productCount: count
+    })
+})
+
+router.get('/get/featured/:count', async (req, res) => {
+    let { params: { count } } = req
+    count = count ? count : 0
+
+    const products = await Product.find({ isFeatured: true }).limit(+count)
+
+    if (!products) {
+        return res.status(500).json({ success: false })
+    }
+
+    return res.send(products)
 })
 
 module.exports = router

@@ -26,7 +26,8 @@ router.post('/login', async (req, res) => {
     if (user && await bcrypt.compare(req.body.password, user.passwordHash)) {
         const token = jwt.sign(
             {
-                userId: user.id
+                userId: user.id,
+                isAdmin: user.isAdmin
             },
             secret,
             {
@@ -50,7 +51,7 @@ router.get('/:id', async (req, res) => {
     return res.send(user)
 })
 
-router.post('/', async (req, res) => {
+router.post('/register', async (req, res) => {
     const { body } = req
     let user = new User({
         name: body.name,
@@ -72,6 +73,30 @@ router.post('/', async (req, res) => {
     }
 
     return res.send(user)
+})
+
+router.get('/get/count', async (req, res) => {
+    const count = await User.countDocuments()
+
+    if (!count) {
+        return res.status(500).json({ success: false })
+    }
+
+    return res.send({
+        userCount: count
+    })
+})
+
+router.delete('/:id', (req, res) => {
+    User.findByIdAndRemove(req.params.id).then(user => {
+        if (user) {
+            return res.status(200).json({ success: true, message: 'the user is deleted!' })
+        } else {
+            return res.status(404).json({ success: false, message: "user not found!" })
+        }
+    }).catch(err => {
+        return res.status(500).json({ success: false, error: err })
+    })
 })
 
 module.exports = router

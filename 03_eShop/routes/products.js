@@ -2,6 +2,26 @@ const { Product } = require('../models/product')
 const express = require('express')
 const router = express.Router()
 const { Category } = require('../models/category')
+const multer = require('multer')
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/uploads')
+    },
+    filename: function (req, file, cb) {
+        const fileName = file.originalname.split(' ').join('-')
+        const extension = FILE_TYPE_MAP[file.mimetype];
+        cb(null, `${fileName}-${Date.now()}.${extension}`)
+    }
+})
+
+const FILE_TYPE_MAP = {
+    'image/png': 'png',
+    'image/jpeg': 'jpeg',
+    'image/jpg': 'jpg'
+};
+
+const uploadOptions = multer({ storage: storage })
 
 
 router.get(`/`, async (req, res) => {
@@ -28,18 +48,21 @@ router.get(`/:id`, async (req, res) => {
     res.status(200).send(product)
 })
 
-router.post(`/`, async (req, res) => {
+router.post(`/`, uploadOptions.single('image'), async (req, res) => {
     const { body } = req
     const category = await Category.findById(body.category)
     if (!category) {
         return res.status(400).send('Invalid category')
     }
 
+    const fileName = req.file.fielname
+    const basePath = `${req.protocol}://${req.get('host')}/public/upload`
+
     let product = new Product({
         name: body.name,
         description: body.description,
         richDescription: body.richDescription,
-        image: body.image,
+        image: `${basePath}/${fileName}`,
         brand: body.brand,
         price: body.price,
         category: body.category,

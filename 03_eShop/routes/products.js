@@ -62,7 +62,10 @@ router.post(`/`, uploadOptions.single('image'), async (req, res) => {
         return res.status(400).send('Invalid category')
     }
 
-    const fileName = req.file.filename
+    const file = req.file
+
+    if (!file) return res.status(400).send('No image in request')
+    const fileName = file.filename
     const basePath = `${req.protocol}://${req.get('host')}/public/uploads`
 
     let product = new Product({
@@ -88,19 +91,34 @@ router.post(`/`, uploadOptions.single('image'), async (req, res) => {
     return res.send(product)
 })
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', uploadOptions.single('image'), async (req, res) => {
     const { body, params: { id } } = req
     const category = await Category.findById(body.category)
     if (!category) {
         return res.status(400).send('Invalid category')
     }
-    const product = await Product.findByIdAndUpdate(
+
+    const product = Product.findById(id)
+    if (!product) return res.status(400).send('Invalid Product!')
+
+    const file = req.file;
+    let imagePath;
+
+    if (file) {
+        const fileName = file.filename
+        const basePath = `${req.protocol}://${req.get('host')}/public/uploads`
+        imagePath = `${basePath}/${fileName}`
+    } else {
+        imagePath = product.image
+    }
+
+    const newProduct = await Product.findByIdAndUpdate(
         id,
         {
             name: body.name,
             description: body.description,
             richDescription: body.richDescription,
-            image: body.image,
+            image: imagePath,
             brand: body.brand,
             price: body.price,
             category: body.category,
@@ -115,11 +133,11 @@ router.put('/:id', async (req, res) => {
         }
     )
 
-    if (!product) {
+    if (!newProduct) {
         return res.status(500).send("The product cannot be update")
     }
 
-    return res.send(product)
+    return res.send(newProduct)
 })
 
 router.delete('/:id', async (req, res) => {

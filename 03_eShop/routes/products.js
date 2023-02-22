@@ -3,6 +3,7 @@ const express = require('express')
 const router = express.Router()
 const { Category } = require('../models/category')
 const multer = require('multer')
+const { default: mongoose } = require('mongoose')
 
 const FILE_TYPE_MAP = {
     'image/png': 'png',
@@ -175,6 +176,39 @@ router.get('/get/featured/:count', async (req, res) => {
     }
 
     return res.send(products)
+})
+
+router.put('/gallery-images/:id', uploadOptions.array('images', 10), async (req, res) => {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+        return res.status(400).send('Invalid Product Id')
+    }
+
+    const files = req.files
+    const basePath = `${req.protocol}://${req.get('host')}/public/uploads`
+
+
+    let imagesPath = []
+
+    if (files) {
+        files.map(file => {
+            imagesPath.push(`${basePath}/${file.filename}`)
+        })
+    }
+
+
+    const product = await Product.findByIdAndUpdate(
+        req.params.id,
+        {
+            images: imagesPath
+        },
+        { new: true }
+    )
+
+    if (!product) {
+        return res.status(500).send("The product cannot be update")
+    }
+
+    return res.send(product)
 })
 
 module.exports = router
